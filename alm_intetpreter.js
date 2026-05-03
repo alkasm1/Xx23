@@ -1,60 +1,41 @@
 class ALM_Interpreter {
   constructor(vm){
-    this.vm = vm;
-    this.programs = {};
+    this.vm=vm;
+    this.programs={};
   }
 
   load(text){
-    const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
+    const lines=text.split("\n");
+    let cur=null;
 
-    let current = null;
-    let currentName = null;
-
-    for (const line of lines){
+    for(const l of lines){
+      const line=l.trim();
 
       if(line.startsWith("PROGRAM")){
-        currentName = line.split(" ")[1];
-        current = [];
-        this.programs[currentName] = current;
+        cur=[];
+        this.programs[line.split(" ")[1]]=cur;
         continue;
       }
 
-      if(line === "END"){
-        current = null;
-        currentName = null;
-        continue;
+      if(line==="END") continue;
+
+      if(cur){
+        if(line==="RESET_ACC")cur.push(["RESET_ACC"]);
+        if(line==="RESET_STR")cur.push(["RESET_STR"]);
+        if(line==="RETURN_ACC")cur.push(["RETURN_ACC"]);
+        if(line==="RETURN_STR")cur.push(["RETURN_STR"]);
+        if(line==="NEXT_POSITION")cur.push(["NEXT_POSITION"]);
+        if(line==="PUSH_CHAR_INDEX")cur.push(["PUSH_CHAR_INDEX"]);
+        if(line==="MOD_BASE")cur.push(["MOD_BASE"]);
+        if(line==="DIV_BASE")cur.push(["DIV_BASE"]);
+        if(line==="APPEND_CHAR")cur.push(["APPEND_CHAR"]);
+        if(line.startsWith("FOR_I"))cur.push(["FOR_I",12,[]]);
+        if(line.startsWith("FOR_EACH_CHAR"))cur.push(["FOR_EACH_CHAR",[]]);
       }
-
-      if(current){
-        current.push(this.parse(line));
-      }
     }
 
-    // تحميل البرامج داخل VM
-    for (const k in this.programs){
-      this.vm.loadProgram(k, this.programs[k]);
+    for(const k in this.programs){
+      this.vm.loadProgram(k,this.programs[k]);
     }
-  }
-
-  parse(line){
-    const p = line.split(" ");
-
-    switch(p[0]){
-      case "RESET_ACC": return ["RESET_ACC"];
-      case "NEXT_POSITION": return ["NEXT_POSITION"];
-      case "PUSH_CHAR_INDEX": return ["PUSH_CHAR_INDEX"];
-      case "MOD_BASE": return ["MOD_BASE"];
-      case "DIV_BASE": return ["DIV_BASE"];
-      case "APPEND_CHAR": return ["APPEND_CHAR"];
-      case "RETURN_ACC": return ["RETURN_ACC"];
-      case "RETURN_STR": return ["RETURN_STR"];
-      case "FOR_EACH_CHAR": return ["FOR_EACH_CHAR", []];
-      case "FOR_I": return ["FOR_I", Number(p[1]), []];
-      default: return ["NOP"];
-    }
-  }
-
-  run(name, input){
-    return this.vm.run(name, input);
   }
 }
