@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ALM Book — File → Image → File</title>
+  <title>ALM Book — File ↔ Image Encoder</title>
 
   <!-- مكتبات محلية -->
   <script src="jszip.min.js"></script>
@@ -266,35 +266,3 @@
       <button class="secondary" id="btnExport">تنزيل الملف</button>
 
       <div id="outputText">—</div>
-      <div class="status" id="statusDecode">
-        <b>الحالة:</b> انتظر اختيار صورة لفك التشفير.
-      </div>
-    </div>
-
-    <div class="card span2" style="background:#fff7ed;border-color:#fed7aa;">
-      <b style="color:#c2410c;">تنبيه مهم:</b><br>
-      لا ترسل الصورة عبر واتساب أو تيليجرام كـ “صورة”.  
-      يجب إرسالها كـ <b>ملف</b> حتى لا يتم ضغطها وفقدان البيانات.  
-      النظام يعتمد على ALM + CRC +  اسم المطوّر رأفت عمر.
-    </div>
-
-  </div>
-</div>
-
-<script src="alm_vm.js"></script>
-<script src="alm_programs.js"></script>
-<script src="script.js"></script>
-
-<script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
-</script>
-
-<footer>
-ALM Book — Powered by ALM Core v1<br>
-تم التطوير بواسطة رأفت عمر — Developed by Raafat Omar
-</footer>
-
-</body>
-</html>
